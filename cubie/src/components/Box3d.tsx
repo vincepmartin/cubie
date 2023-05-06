@@ -10,19 +10,22 @@ function Box3d(props:any ) {
   const [clicked, click] = useState(false);
   // Subscribe this component to the render-loop, rotate the mesh every frame
   useFrame((state, delta) => (ref.current.rotation.x += 0.01));
+
+  const {scale, wireframe} = props;
+
   // Return the view, these are regular Threejs elements expressed in JSX
   return (
     <mesh
       {...props}
       ref={ref}
-      scale={clicked ? 2 : 1}
+      scale={clicked ? scale * 2 : scale}
       onClick={(event) => click(!clicked)}
       onPointerOver={(event) => hover(true)}
       onPointerOut={(event) => hover(false)}
     >
-      <boxGeometry args={[1, 1, 1]} />
+      <boxGeometry args={[1, 1, 1, 4, 4, 4]} />
       <meshStandardMaterial
-        wireframe={props.wireframe}
+        wireframe={wireframe}
         color={hovered ? "hotpink" : "orange"}
       />
     </mesh>
